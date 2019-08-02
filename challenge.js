@@ -76,3 +76,5 @@ function calculateFinalCost(calls) {
 	let result = total-debt_to_forgive;
 	return +result.toFixed(2);
 }
+
+module.exports = calculateFinalCost;
