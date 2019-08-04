@@ -26,7 +26,7 @@ const Call = require('./call.js');
  * @param {*} data 
  */
 function parseCalls(data) {
-	let aux_calls = data.split(/\r\n|\r|\n/g);
+	let aux_calls = data.split(/\r\n|\r|\n/g); //by lines
 	let parsed_calls = [];
 
 	aux_calls.map(call => {
@@ -35,12 +35,12 @@ function parseCalls(data) {
 
 		let call_start = new Date(`1995-02-09T${call_data[0]}`);
 		let call_end = new Date(`1995-02-09T${call_data[1]}`);
-		let call_duration = call_end - call_start; // elapsed time in milliseconds
+		let call_duration = call_end - call_start; //elapsed time in milliseconds
 		
 		parsed_calls.push(new Call(starter, call_duration));
 	});
 
-	return parsed_calls;// of calls formated
+	return parsed_calls; //[] of calls formated
 }
 
 /**
@@ -57,7 +57,7 @@ function calculateFinalCost(calls) {
 	let debt_to_forgive = 0.0;
 
 	//get total
-	for (const call of calls) {
+	for (let call of calls) {
 		total+=call.cost;
 		//find caller to 'forgive'
 		if(call.cost>current_max) {
@@ -67,14 +67,14 @@ function calculateFinalCost(calls) {
 	}
 
 	//find amount to forgive //TODO: optimize
-	for (const call of calls) {
+	for (let call of calls) {
 		if(call.starter === current_max_caller) {
 			debt_to_forgive+=call.cost;
 		}
 	}
 
 	let result = total-debt_to_forgive;
-	return +result.toFixed(2);
+	return +result.toFixed(2); //pretty value
 }
 
 module.exports = calculateFinalCost;

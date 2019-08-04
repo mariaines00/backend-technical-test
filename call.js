@@ -30,17 +30,15 @@ class Call {
 	 */
 	calculateCallCost() {
 		let aux_duration = this.duration;
-		let i = 0;
 		let aux_cost = 0.0;
 		
 		while(aux_duration > 1) {			
-			if(i<5) { // The first 5 minutes of each call are billed at 5 cents per minute
+			if (aux_duration < Call.five_minutes) { // The first 5 minutes of each call are billed at 5 cents per minute
 				aux_cost+=Call.five_cents;
 			} else { // The remainer of the call is billed at 2 cents per minute
 				aux_cost+=Call.two_cents;
 			}
 			aux_duration-=Call.one_minute;
-			i++;
 		}
 		return aux_cost;
 	}
