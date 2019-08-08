@@ -26,18 +26,17 @@ const Call = require('./call.js');
  * @param {*} data 
  */
 function parseCalls(data) {
-	let aux_calls = data.split(/\r\n|\r|\n/g); //by lines
-	let parsed_calls = [];
+	const aux_calls = data.split(/\r\n|\r|\n/g); //by lines
 
-	aux_calls.map(call => {
-		let call_data = call.split(';');
-		let starter = call_data[2];
+	let parsed_calls = aux_calls.map(call => {
+		const call_data = call.split(';');
+		const starter = call_data[2];
 
-		let call_start = new Date(`1995-02-09T${call_data[0]}`);
-		let call_end = new Date(`1995-02-09T${call_data[1]}`);
-		let call_duration = call_end - call_start; //elapsed time in milliseconds
+		const call_start = new Date(`1995-02-09T${call_data[0]}`);
+		const call_end = new Date(`1995-02-09T${call_data[1]}`);
+		const call_duration = call_end - call_start; //elapsed time in milliseconds
 		
-		parsed_calls.push(new Call(starter, call_duration));
+		return new Call(starter, call_duration);
 	});
 
 	return parsed_calls; //[] of calls formated
@@ -56,17 +55,16 @@ function calculateFinalCost(calls) {
 	let current_max_caller = '';
 	let debt_to_forgive = 0.0;
 
-	//get total
-	for (let call of calls) {
-		total+=call.cost;
+	calls.forEach(call => {
+        total+=call.cost;
 		//find caller to 'forgive'
 		if(call.cost>current_max) {
 			current_max = call.cost;
 			current_max_caller = call.starter;
 		}
-	}
+	});
 
-	//find amount to forgive //TODO: optimize
+	//find amount to forgive //TODO: add map filter and reduce
 	for (let call of calls) {
 		if(call.starter === current_max_caller) {
 			debt_to_forgive+=call.cost;
