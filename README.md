@@ -1,4 +1,4 @@
-# Backend Talkdesk technical challenge
+# Backend technical challenge
 
 Written in `JavaScript` and `Node.js`
 
